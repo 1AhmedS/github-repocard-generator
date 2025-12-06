@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Readme Card Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --accent: #000000;
+      --bg-light: #ffffff;
+      --bg-dark: #000000;
+      --surface-light: #fafafa;
+      --surface-dark: #0a0a0a;
+      --border-light: #e5e5e5;
+      --border-dark: #1a1a1a;
+      --text-light: #000000;
+      --text-dark: #ffffff;
+      --text-muted-light: #666666;
+      --text-muted-dark: #999999;
+      --shadow: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
+    }
+    
+    body {
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      line-height: 1.7;
+      transition: background 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-light);
+      background: var(--bg-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    body.dark header {
+      border-bottom-color: var(--border-dark);
+      background: rgba(0, 0, 0, 0.95);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-light);
+    }
+
+    body.dark .logo {
+      color: var(--text-dark);
+    }
+
+    .logo-icon {
+      font-size: 28px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .lang-switch, .theme-toggle {
+      background: var(--surface-light);
+      border: 1px solid var(--border-light);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      color: var(--text-light);
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body.dark .lang-switch,
+    body.dark .theme-toggle {
+      background: var(--surface-dark);
+      border-color: var(--border-dark);
+      color: var(--text-dark);
+    }
+
+    .lang-switch:hover, .theme-toggle:hover {
+      transform: translateY(-2px);
+      background: var(--text-light);
+      color: var(--bg-light);
+    }
+
+    body.dark .lang-switch:hover, 
+    body.dark .theme-toggle:hover {
+      background: var(--text-dark);
+      color: var(--bg-dark);
+    }
+
+    .theme-toggle {
+      padding: 8px 12px;
+      font-size: 18px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 0 60px;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      letter-spacing: -0.03em;
+      color: var(--text-light);
+    }
+
+    body.dark .hero h1 {
+      color: var(--text-dark);
+    }
+
+    .hero p {
+      font-size: 20px;
+      color: var(--text-muted-light);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      font-weight: 500;
+    }
+
+    body.dark .hero p {
+      color: var(--text-muted-dark);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--text-light);
+      color: var(--bg-light);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 32px;
+    }
+
+    body.dark .hero-badge {
+      background: var(--text-dark);
+      color: var(--bg-dark);
+    }
+
+    .generator {
+      background: var(--surface-light);
+      border: 2px solid var(--border-light);
+      border-radius: 16px;
+      padding: 48px;
+      margin: 40px 0;
+      box-shadow: var(--shadow-lg);
+      transition: all 0.3s ease;
+    }
+
+    body.dark .generator {
+      background: var(--surface-dark);
+      border-color: var(--border-dark);
+    }
+
+    .form-group {
+      margin-bottom: 28px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 15px;
+      color: var(--text-light);
+    }
+
+    body.dark label {
+      color: var(--text-dark);
+    }
+
+    .label-hint {
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--text-muted-light);
+      margin-top: 4px;
+    }
+
+    body.dark .label-hint {
+      color: var(--text-muted-dark);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid var(--border-light);
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    body.dark input,
+    body.dark select,
+    body.dark textarea {
+      background: var(--bg-dark);
+      border-color: var(--border-dark);
+      color: var(--text-dark);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--text-light);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+
+    body.dark input:focus,
+    body.dark select:focus,
+    body.dark textarea:focus {
+      border-color: var(--text-dark);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .color-input-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .color-picker-group {
+      flex: 0 0 80px;
+    }
+
+    .color-picker-group label {
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    input[type="color"] {
+      width: 80px;
+      height: 50px;
+      padding: 4px;
+      cursor: pointer;
+      border: 2px solid var(--border-light);
+      border-radius: 10px;
+    }
+
+    body.dark input[type="color"] {
+      border-color: var(--border-dark);
+    }
+
+    input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 6px;
+    }
+
+    .hex-input-group {
+      flex: 1;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 32px 0 20px 0;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    body.dark .section-title {
+      color: var(--text-dark);
+    }
+
+    .section-divider {
+      height: 2px;
+      background: linear-gradient(90deg, var(--border-light), transparent);
+      margin: 32px 0 24px 0;
+      border-radius: 2px;
+    }
+
+    body.dark .section-divider {
+      background: linear-gradient(90deg, var(--border-dark), transparent);
+    }
+
+    .generate-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--text-light);
+      color: var(--bg-light);
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 16px;
+      font-family: 'Cairo', sans-serif;
+      box-shadow: var(--shadow-lg);
+    }
+
+    body.dark .generate-btn {
+      background: var(--text-dark);
+      color: var(--bg-dark);
+    }
+
+    .generate-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    body.dark .generate-btn:hover {
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .generate-btn:active {
+      transform: translateY(-1px);
+    }
+
+    .result {
+      background: var(--surface-light);
+      border: 2px solid var(--text-light);
+      border-radius: 16px;
+      padding: 40px;
+      margin: 40px 0;
+      display: none;
+      box-shadow: var(--shadow-lg);
+    }
+
+    body.dark .result {
+      background: var(--surface-dark);
+      border-color: var(--text-dark);
+    }
+
+    .result.show {
+      display: block;
+      animation: slideIn 0.4s ease;
+    }
+
+    @keyframes slideIn {
+      from { 
+        opacity: 0; 
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0);
+      }
+    }
+
+    .result h3 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: var(--text-light);
+      font-weight: 800;
+    }
+
+    body.dark .result h3 {
+      color: var(--text-dark);
+    }
+
+    .url-box {
+      background: var(--bg-light);
+      border: 2px solid var(--border-light);
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      word-break: break-all;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+
+    body.dark .url-box {
+      background: var(--bg-dark);
+      border-color: var(--border-dark);
+    }
+
+    .url-box:hover {
+      border-color: var(--text-light);
+    }
+
+    body.dark .url-box:hover {
+      border-color: var(--text-dark);
+    }
+
+    .url-text {
+      flex: 1;
+      color: var(--text-muted-light);
+    }
+
+    body.dark .url-text {
+      color: var(--text-muted-dark);
+    }
+
+    .copy-btn {
+      background: var(--text-light);
+      color: var(--bg-light);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body.dark .copy-btn {
+      background: var(--text-dark);
+      color: var(--bg-dark);
+    }
+
+    .copy-btn:hover {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+
+    .copy-btn.copied {
+      background: #10b981;
+      color: #ffffff;
+    }
+
+    .preview-box {
+      background: var(--bg-light);
+      border: 2px dashed var(--border-light);
+      border-radius: 10px;
+      padding: 24px;
+      margin-top: 24px;
+      text-align: center;
+    }
+
+    body.dark .preview-box {
+      background: var(--bg-dark);
+      border-color: var(--border-dark);
+    }
+
+    .preview-box h4 {
+      font-size: 16px;
+      margin-bottom: 16px;
+      color: var(--text-muted-light);
+    }
+
+    body.dark .preview-box h4 {
+      color: var(--text-muted-dark);
+    }
+
+    .preview-box img {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .docs {
+      padding: 60px 0;
+    }
+
+    .docs h2 {
+      font-size: 36px;
+      margin-bottom: 32px;
+      font-weight: 800;
+      color: var(--text-light);
+    }
+
+    body.dark .docs h2 {
+      color: var(--text-dark);
+    }
+
+    .doc-section {
+      background: var(--surface-light);
+      border: 2px solid var(--border-light);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+    }
+
+    body.dark .doc-section {
+      background: var(--surface-dark);
+      border-color: var(--border-dark);
+    }
+
+    .doc-section:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--text-light);
+    }
+
+    body.dark .doc-section:hover {
+      border-color: var(--text-dark);
+    }
+
+    .doc-section h3 {
+      font-size: 22px;
+      margin-bottom: 16px;
+      font-weight: 700;
+      color: var(--text-light);
+    }
+
+    body.dark .doc-section h3 {
+      color: var(--text-dark);
+    }
+
+    .doc-section ul {
+      list-style: none;
+      padding-right: 0;
+    }
+
+    .doc-section li {
+      padding: 12px 0;
+      color: var(--text-muted-light);
+      font-weight: 500;
+      display: flex;
+      align-items: start;
+      gap: 12px;
+    }
+
+    body.dark .doc-section li {
+      color: var(--text-muted-dark);
+    }
+
+    .doc-section li::before {
+      content: '▸';
+      color: var(--text-light);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    body.dark .doc-section li::before {
+      color: var(--text-dark);
+    }
+
+    code {
+      background: var(--text-light);
+      color: var(--bg-light);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    body.dark code {
+      background: var(--text-dark);
+      color: var(--bg-dark);
+    }
+
+    .example-box {
+      background: var(--bg-light);
+      border: 2px solid var(--border-light);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 16px 0;
+      font-family: 'Fira Code', monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      direction: ltr;
+      text-align: left;
+      color: var(--text-light);
+    }
+
+    body.dark .example-box {
+      background: var(--bg-dark);
+      border-color: var(--border-dark);
+      color: var(--text-dark);
+    }
+
+    footer {
+      text-align: center;
+      padding: 48px 0;
+      color: var(--text-muted-light);
+      border-top: 1px solid var(--border-light);
+      margin-top: 80px;
+      font-weight: 600;
+    }
+
+    body.dark footer {
+      border-top-color: var(--border-dark);
+      color: var(--text-muted-dark);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 36px; }
+      .hero p { font-size: 17px; }
+      .generator { padding: 28px; }
+      .result { padding: 24px; }
+      .grid { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .controls { gap: 8px; }
+      .doc-section { padding: 24px; }
+      .color-input-wrapper { flex-direction: column; align-items: stretch; }
+      .color-picker-group { flex: 1; }
+      input[type="color"] { width: 100%; }
+    }
+
+    [dir="ltr"] body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    [dir="ltr"] .doc-section li::before {
+      content: '▸';
+    }
+
+    .loading {
+      pointer-events: none;
+      opacity: 0.6;
+      position: relative;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(0, 0, 0, 0.2);
+      border-top-color: var(--text-light);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    body.dark .loading::after {
+      border-color: rgba(255, 255, 255, 0.2);
+      border-top-color: var(--text-dark);
+    }
+
+    @keyframes spin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+</style>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <span class="logo-icon">📌</span>
+        <span data-ar="مولد كروت README" data-en="README Card Generator">مولد كروت README</span>
+      </div>
+      <div class="controls">
+        <button class="lang-switch" onclick="toggleLang()" aria-label="تبديل اللغة">EN</button>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="تبديل الثيم">🌓</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-badge">
+        <span>✨</span>
+        <span data-ar="مجاني ومفتوح المصدر" data-en="Free & Open Source">مجاني ومفتوح المصدر</span>
+      </div>
+      <h1 data-ar="إنشاء كروت GitHub احترافية" data-en="Create Professional GitHub Cards">إنشاء كروت GitHub احترافية</h1>
+      <p data-ar="قم بإنشاء كروت جميلة ومخصصة لمشاريعك على GitHub بضغطة زر واحدة، وأضفها مباشرة إلى ملفات README الخاصة بك" data-en="Generate beautiful, custom cards for your GitHub projects with one click and add them directly to your README files">قم بإنشاء كروت جميلة ومخصصة لمشاريعك على GitHub بضغطة زر واحدة، وأضفها مباشرة إلى ملفات README الخاصة بك</p>
+    </section>
+
+    <section class="generator">
+      <form id="cardForm" onsubmit="generateCard(event)">
+        <!-- Basic Info -->
+        <div class="form-group">
+          <label data-ar="اسم المشروع *" data-en="Project Name *">اسم المشروع *</label>
+          <input type="text" id="name" placeholder="My Awesome Project" required>
+        </div>
+
+        <div class="form-group">
+          <label data-ar="وصف المشروع *" data-en="Project Description *">وصف المشروع *</label>
+          <textarea id="desc" placeholder="A brief description of what your project does and why it's awesome" required></textarea>
+        </div>
+
+        <div class="grid">
+          <div class="form-group">
+            <label data-ar="لغة البرمجة" data-en="Programming Language">لغة البرمجة</label>
+            <input type="text" id="lang" placeholder="JavaScript, Python, etc.">
+          </div>
+          <div class="form-group">
+            <label data-ar="الثيم" data-en="Theme">الثيم</label>
+            <select id="theme" onchange="updateThemeDefaults()">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="section-divider"></div>
+        <div class="section-title">
+          <span>📊</span>
+          <span data-ar="الإحصائيات (اختياري)" data-en="Statistics (Optional)">الإحصائيات (اختياري)</span>
+        </div>
+
+        <div class="grid-3">
+          <div class="form-group">
+            <label data-ar="⭐ عدد النجوم" data-en="⭐ Stars">⭐ عدد النجوم</label>
+            <input type="number" id="stars" placeholder="1500" min="0">
+          </div>
+          <div class="form-group">
+            <label data-ar="🔀 عدد الـ Forks" data-en="🔀 Forks">🔀 عدد الـ Forks</label>
+            <input type="number" id="forks" placeholder="300" min="0">
+          </div>
+          <div class="form-group">
+            <label data-ar="⚠️ عدد الـ Issues" data-en="⚠️ Issues">⚠️ عدد الـ Issues</label>
+            <input type="number" id="issues" placeholder="12" min="0">
+          </div>
+        </div>
+
+        <!-- Colors Section -->
+        <div class="section-divider"></div>
+        <div class="section-title">
+          <span>🎨</span>
+          <span data-ar="تخصيص الألوان (اختياري)" data-en="Customize Colors (Optional)">تخصيص الألوان (اختياري)</span>
+        </div>
+
+        <div class="form-group">
+          <label data-ar="لون الخلفية" data-en="Background Color">لون الخلفية</label>
+          <div class="label-hint" data-ar="اللون الأساسي للكرت" data-en="Main card background">اللون الأساسي للكرت</div>
+          <div class="color-input-wrapper">
+            <div class="color-picker-group">
+              <input type="color" id="bgColorPicker" value="#0d1117">
+            </div>
+            <div class="hex-input-group">
+              <input type="text" id="bgColor" placeholder="#0d1117 أو 0d1117">
+            </div>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="form-group">
+            <label data-ar="لون النص الرئيسي" data-en="Main Text Color">لون النص الرئيسي</label>
+            <div class="label-hint" data-ar="لون اسم المشروع والعناوين" data-en="Project name and headers color">لون اسم المشروع والعناوين</div>
+            <div class="color-input-wrapper">
+              <div class="color-picker-group">
+                <input type="color" id="textColorPicker" value="#e6edf3">
+              </div>
+              <div class="hex-input-group">
+                <input type="text" id="textColor" placeholder="#e6edf3">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label data-ar="لون النص الثانوي" data-en="Muted Text Color">لون النص الثانوي</label>
+            <div class="label-hint" data-ar="لون الوصف والنصوص الفرعية" data-en="Description and secondary text">لون الوصف والنصوص الفرعية</div>
+            <div class="color-input-wrapper">
+              <div class="color-picker-group">
+                <input type="color" id="mutedColorPicker" value="#8b949e">
+              </div>
+              <div class="hex-input-group">
+                <input type="text" id="mutedColor" placeholder="#8b949e">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="form-group">
+            <label data-ar="اللون الأساسي (Accent)" data-en="Accent Color">اللون الأساسي (Accent)</label>
+            <div class="label-hint" data-ar="للأيقونات والحدود الرئيسية" data-en="For icons and primary borders">للأيقونات والحدود الرئيسية</div>
+            <div class="color-input-wrapper">
+              <div class="color-picker-group">
+                <input type="color" id="accentColorPicker" value="#58a6ff">
+              </div>
+              <div class="hex-input-group">
+                <input type="text" id="accentColor" placeholder="#58a6ff">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label data-ar="اللون الثانوي (Secondary)" data-en="Secondary Accent">اللون الثانوي (Secondary)</label>
+            <div class="label-hint" data-ar="للتأثيرات والظلال الملونة" data-en="For effects and colored shadows">للتأثيرات والظلال الملونة</div>
+            <div class="color-input-wrapper">
+              <div class="color-picker-group">
+                <input type="color" id="secondaryAccentPicker" value="#a371f7">
+              </div>
+              <div class="hex-input-group">
+                <input type="text" id="secondaryAccent" placeholder="#a371f7">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="generate-btn" data-ar="🚀 إنشاء الكرت الآن" data-en="🚀 Generate Card Now">🚀 إنشاء الكرت الآن</button>
+      </form>
+    </section>
+
+    <section class="result" id="result">
+      <h3 data-ar="✅ تم إنشاء الكرت بنجاح!" data-en="✅ Card Generated Successfully!">✅ تم إنشاء الكرت بنجاح!</h3>
+      
+      <div>
+        <label style="font-size: 14px; margin-bottom: 8px; display: block; font-weight: 600;" data-ar="رابط الكرت المباشر:" data-en="Direct Card URL:">رابط الكرت المباشر:</label>
+        <div class="url-box">
+          <span class="url-text" id="generatedUrl"></span<function_calls>
+<invoke name="artifacts">
+<parameter name="command">update</parameter>
+<parameter name="id">updated_html_form</parameter>
+<parameter name="old_str">          <span class="url-text" id="generatedUrl"></span</parameter>
+<parameter name="new_str">          <span class="url-text" id="generatedUrl"></span>
+          <button class="copy-btn" onclick="copyUrl()" data-ar="نسخ" data-en="Copy">نسخ</button>
+        </div>
+      </div>
+
+      <div>
+        <label style="font-size: 14px; margin-bottom: 8px; display: block; font-weight: 600;" data-ar="كود Markdown:" data-en="Markdown Code:">كود Markdown:</label>
+        <div class="url-box">
+          <span class="url-text" id="markdownCode"></span>
+          <button class="copy-btn" onclick="copyMarkdown()" data-ar="نسخ Markdown" data-en="Copy Markdown">نسخ Markdown</button>
+        </div>
+      </div>
+
+      <div class="preview-box">
+        <h4 data-ar="معاينة الكرت:" data-en="Card Preview:">معاينة الكرت:</h4>
+        <img id="previewImg" alt="Card Preview" style="display: none;" onload="this.style.display='block'">
+      </div>
+    </section>
+
+    <section class="docs">
+      <div class="doc-section">
+        <h2 data-ar="📖 دليل الاستخدام" data-en="📖 User Guide">📖 دليل الاستخدام</h2>
+        <h3 data-ar="البارامترات المتاحة:" data-en="Available Parameters:">البارامترات المتاحة:</h3>
+        <ul>
+          <li><code>name</code> <span data-ar="اسم المشروع (مطلوب)" data-en="Project name (required)">اسم المشروع (مطلوب)</span></li>
+          <li><code>desc</code> <span data-ar="وصف المشروع (مطلوب)" data-en="Project description (required)">وصف المشروع (مطلوب)</span></li>
+          <li><code>lang</code> <span data-ar="لغة البرمجة" data-en="Programming language">لغة البرمجة</span></li>
+          <li><code>theme</code> <span data-ar="الثيم: dark أو light" data-en="Theme: dark or light">الثيم: dark أو light</span></li>
+          <li><code>stars</code> <span data-ar="عدد النجوم" data-en="Number of stars">عدد النجوم</span></li>
+          <li><code>forks</code> <span data-ar="عدد الـ forks" data-en="Number of forks">عدد الـ forks</span></li>
+          <li><code>issues</code> <span data-ar="عدد الـ issues" data-en="Number of issues">عدد الـ issues</span></li>
+          <li><code>bg_color</code> <span data-ar="لون الخلفية" data-en="Background color">لون الخلفية</span></li>
+          <li><code>text_color</code> <span data-ar="لون النص الرئيسي" data-en="Main text color">لون النص الرئيسي</span></li>
+          <li><code>muted_color</code> <span data-ar="لون النص الثانوي" data-en="Muted text color">لون النص الثانوي</span></li>
+          <li><code>accent_color</code> <span data-ar="اللون الأساسي" data-en="Accent color">اللون الأساسي</span></li>
+          <li><code>secondary_accent</code> <span data-ar="اللون الثانوي" data-en="Secondary accent">اللون الثانوي</span></li>
+        </ul>
+      </div>
+
+      <div class="doc-section">
+        <h3 data-ar="مثال على الاستخدام:" data-en="Usage Example:">مثال على الاستخدام:</h3>
+        <div class="example-box">/pin?name=My Project&desc=A great project&lang=JavaScript&theme=dark&stars=1500&forks=300&accent_color=ff6b6b</div>
+      </div>
+
+      <div class="doc-section">
+        <h3 data-ar="استخدام في Markdown:" data-en="Using in Markdown:">استخدام في Markdown:</h3>
+        <div class="example-box">![Project Card](http://your-domain.com/pin?name=PROJECT&desc=DESCRIPTION)</div>
+      </div>
+    </section>
+
+    <footer>
+      <p data-ar="صُنع بـ ❤️ لمجتمع المطورين العرب والعالميين" data-en="Made with ❤️ for the developer community">صُنع بـ ❤️ لمجتمع المطورين العرب والعالميين</p>
+    </footer>
+  </div>
+
+  <script>
+    let currentLang = 'ar';
+    
+    // Color sync functions
+    function syncColorPicker(pickerId, inputId) {
+      const picker = document.getElementById(pickerId);
+      const input = document.getElementById(inputId);
+      picker.value = input.value.startsWith('#') ? input.value : '#' + input.value;
+    }
+
+    function syncColorInput(pickerId, inputId) {
+      const picker = document.getElementById(pickerId);
+      const input = document.getElementById(inputId);
+      input.value = picker.value;
+    }
+
+    // Setup color inputs
+    document.getElementById('bgColorPicker').addEventListener('input', (e) => syncColorInput('bgColorPicker', 'bgColor'));
+    document.getElementById('bgColor').addEventListener('input', (e) => {
+      let val = e.target.value.trim();
+      if (val && /^#?[0-9A-F]{6}$/i.test(val)) {
+        syncColorPicker('bgColorPicker', 'bgColor');
+      }
+    });
+
+    document.getElementById('textColorPicker').addEventListener('input', (e) => syncColorInput('textColorPicker', 'textColor'));
+    document.getElementById('textColor').addEventListener('input', (e) => {
+      let val = e.target.value.trim();
+      if (val && /^#?[0-9A-F]{6}$/i.test(val)) {
+        syncColorPicker('textColorPicker', 'textColor');
+      }
+    });
+
+    document.getElementById('mutedColorPicker').addEventListener('input', (e) => syncColorInput('mutedColorPicker', 'mutedColor'));
+    document.getElementById('mutedColor').addEventListener('input', (e) => {
+      let val = e.target.value.trim();
+      if (val && /^#?[0-9A-F]{6}$/i.test(val)) {
+        syncColorPicker('mutedColorPicker', 'mutedColor');
+      }
+    });
+
+    document.getElementById('accentColorPicker').addEventListener('input', (e) => syncColorInput('accentColorPicker', 'accentColor'));
+    document.getElementById('accentColor').addEventListener('input', (e) => {
+      let val = e.target.value.trim();
+      if (val && /^#?[0-9A-F]{6}$/i.test(val)) {
+        syncColorPicker('accentColorPicker', 'accentColor');
+      }
+    });
+
+    document.getElementById('secondaryAccentPicker').addEventListener('input', (e) => syncColorInput('secondaryAccentPicker', 'secondaryAccent'));
+    document.getElementById('secondaryAccent').addEventListener('input', (e) => {
+      let val = e.target.value.trim();
+      if (val && /^#?[0-9A-F]{6}$/i.test(val)) {
+        syncColorPicker('secondaryAccentPicker', 'secondaryAccent');
+      }
+    });
+
+    function updateThemeDefaults() {
+      const theme = document.getElementById('theme').value;
+      const isDark = theme === 'dark';
+      
+      // Update defaults if fields are empty
+      if (!document.getElementById('bgColor').value) {
+        document.getElementById('bgColor').value = isDark ? '#0d1117' : '#ffffff';
+        document.getElementById('bgColorPicker').value = isDark ? '#0d1117' : '#ffffff';
+      }
+      if (!document.getElementById('textColor').value) {
+        document.getElementById('textColor').value = isDark ? '#e6edf3' : '#1f2328';
+        document.getElementById('textColorPicker').value = isDark ? '#e6edf3' : '#1f2328';
+      }
+      if (!document.getElementById('mutedColor').value) {
+        document.getElementById('mutedColor').value = isDark ? '#8b949e' : '#656d76';
+        document.getElementById('mutedColorPicker').value = isDark ? '#8b949e' : '#656d76';
+      }
+      if (!document.getElementById('accentColor').value) {
+        document.getElementById('accentColor').value = isDark ? '#58a6ff' : '#0969da';
+        document.getElementById('accentColorPicker').value = isDark ? '#58a6ff' : '#0969da';
+      }
+      if (!document.getElementById('secondaryAccent').value) {
+        document.getElementById('secondaryAccent').value = isDark ? '#a371f7' : '#8250df';
+        document.getElementById('secondaryAccentPicker').value = isDark ? '#a371f7' : '#8250df';
+      }
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === 'ar' ? 'en' : 'ar';
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+      
+      document.querySelectorAll('[data-ar]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + currentLang);
+      });
+      
+      document.querySelector('.lang-switch').textContent = currentLang === 'ar' ? 'EN' : 'ع';
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    function generateCard(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.generate-btn');
+      btn.classList.add('loading');
+      
+      const name = document.getElementById('name').value.trim();
+      const desc = document.getElementById('desc').value.trim();
+      const lang = document.getElementById('lang').value.trim();
+      const theme = document.getElementById('theme').value;
+      const stars = document.getElementById('stars').value.trim();
+      const forks = document.getElementById('forks').value.trim();
+      const issues = document.getElementById('issues').value.trim();
+      const bgColor = document.getElementById('bgColor').value.trim().replace('#', '');
+      const textColor = document.getElementById('textColor').value.trim().replace('#', '');
+      const mutedColor = document.getElementById('mutedColor').value.trim().replace('#', '');
+      const accentColor = document.getElementById('accentColor').value.trim().replace('#', '');
+      const secondaryAccent = document.getElementById('secondaryAccent').value.trim().replace('#', '');
+
+      let url = 'https://readmecard.ahmedtv027.workers.dev' + '/pin?name=' + encodeURIComponent(name) + 
+                '&desc=' + encodeURIComponent(desc);
+      
+      if (lang) url += '&lang=' + encodeURIComponent(lang);
+      url += '&theme=' + theme;
+      if (stars) url += '&stars=' + stars;
+      if (forks) url += '&forks=' + forks;
+      if (issues) url += '&issues=' + issues;
+      if (bgColor) url += '&bg_color=' + encodeURIComponent(bgColor);
+      if (textColor) url += '&text_color=' + encodeURIComponent(textColor);
+      if (mutedColor) url += '&muted_color=' + encodeURIComponent(mutedColor);
+      if (accentColor) url += '&accent_color=' + encodeURIComponent(accentColor);
+      if (secondaryAccent) url += '&secondary_accent=' + encodeURIComponent(secondaryAccent);
+
+      document.getElementById('generatedUrl').textContent = url;
+      document.getElementById('markdownCode').textContent = '![' + name + '](' + url + ')';
+      
+      const preview = document.getElementById('previewImg');
+      preview.src = url;
+      
+      setTimeout(() => {
+        btn.classList.remove('loading');
+        document.getElementById('result').classList.add('show');
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 300);
+    }
+
+    function copyUrl() {
+      const url = document.getElementById('generatedUrl').textContent;
+      navigator.clipboard.writeText(url).then(() => {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = currentLang === 'ar' ? '✓ تم النسخ' : '✓ Copied';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    function copyMarkdown() {
+      const markdown = document.getElementById('markdownCode').textContent;
+      navigator.clipboard.writeText(markdown).then(() => {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = currentLang === 'ar' ? '✓ تم النسخ' : '✓ Copied';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.body.classList.add('dark');
+    }
+
+    // Input validation
+    document.querySelectorAll('input[required], textarea[required]').forEach(input => {
+      input.addEventListener('invalid', () => {
+        input.style.borderColor = '#ef4444';
+      });
+      input.addEventListener('input', () => {
+        input.style.borderColor = '';
+      });
+    });
+  </script>
+</body>
+</html>
