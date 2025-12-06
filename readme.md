@@ -17,13 +17,7 @@
 
 ## 🚀 Quick Start
 
-### Method 1: Online Usage
-1. Visit the [application website](https://your-deployed-app-url.com)
-2. Customize your card as desired
-3. Copy the HTML or Markdown code
-4. Add it to your README.md file
-
-### Method 2: Local Development
+### Method 1: Local Development
 ```bash
 # Clone the project
 git clone https://github.com/1AhmedS/github-repocard-generator.git
